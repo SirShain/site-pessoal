@@ -6,224 +6,491 @@
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <title>Tavernard Sites e Sistemas</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<meta name="description" content="Tavernard: sites e sistemas web para pequenos negócios, por Pedro Tavernard, estudante de Ciência da Computação. Aplicações com banco de dados, autenticação e testes.">
+<meta name="description" content="Tavernard: sites, sistemas com login e aplicativos instaláveis para pequenos negócios, por Pedro Tavernard, estudante de Ciência da Computação.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=Hanken+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-/* Layout: catálogo em largura total. Nome gigante, índice de projetos em grade de quadrados com borda de 1px, fichas técnicas em duas colunas.
-   Direção visual: estilo B—Line (Refero Styles): monoespaçado, sem cor, sem sombra, sem gradiente. Só como direção, nada copiado. */
+/* Layout: fundo escuro, menu em pílula, hero com frase direta e três celulares com telas reais, cada projeto numa faixa de cor própria
+   com carrossel de telas dentro de um iPhone, processo numerado, contato grande.
+   Referências: Pinterest do Pedro (preto e vermelho, HUD, cenas que mudam de clima); Cult UI (mockup de iPhone), React Bits (cartão inclinado, faixa por velocidade de rolagem),
+   21st.dev (carrossel de telas em celular, hero com mockup). Só ideias; todo o código é próprio. Sem formas geométricas decorativas: a imagem é o produto. */
 :root{
-  --bg:#FFFFFF; --fg:#000000; --mute:#595959; --rule:#000000;
-  --display:"Archivo","Helvetica Neue",Arial,sans-serif;
-  --mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
+  --bg:#080E0E; --surface:#0F1918; --line:rgba(236,244,242,.13);
+  --ink:#F1F5F4; --soft:#D0DAD8; --muted:#9FB0AD; --ghost:#111C1B;
+  --red:#D62B2F; --red-text:#FF6366;
+  --display:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;
+  --body:"Hanken Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
   --gutter:max(16px,env(safe-area-inset-left,0px));
   --gutter-r:max(16px,env(safe-area-inset-right,0px));
-  color-scheme:light;
+  color-scheme:dark;
 }
-@media (prefers-color-scheme:dark){
-  :root:not([data-theme="light"]){--bg:#000000;--fg:#FFFFFF;--mute:#A6A6A6;--rule:#FFFFFF;color-scheme:dark}
-}
-:root[data-theme="dark"]{--bg:#000000;--fg:#FFFFFF;--mute:#A6A6A6;--rule:#FFFFFF;color-scheme:dark}
-
 *,*::before,*::after{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--fg);font:400 14px/1.6 var(--mono);-webkit-font-smoothing:antialiased}
-a{color:inherit;text-decoration-thickness:1px;text-underline-offset:3px}
-a:focus-visible{outline:2px solid var(--fg);outline-offset:3px}
-.skip{position:absolute;left:-999px;top:0;background:var(--bg);color:var(--fg);padding:.75rem 1rem;border:1px solid var(--rule)}
-.skip:focus{left:var(--gutter);top:8px;z-index:5}
-.wrap{max-width:112rem;margin:0 auto;padding-left:var(--gutter);padding-right:var(--gutter-r)}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 1.0625rem/1.6 var(--body);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:30}
+a{color:inherit}
+a:focus-visible,summary:focus-visible,button:focus-visible{outline:2px solid var(--red-text);outline-offset:3px;border-radius:6px}
+.skip{position:absolute;left:-999px;top:0;background:var(--surface);padding:.75rem 1rem;border:1px solid var(--line)}
+.skip:focus{left:var(--gutter);top:8px;z-index:40}
+.wrap{max-width:80rem;margin:0 auto;padding-left:var(--gutter);padding-right:var(--gutter-r)}
+.hud{font:400 .75rem/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.dot{display:inline-block;width:.5rem;height:.5rem;background:var(--red-text);transform:rotate(45deg);margin-right:.5rem;vertical-align:.05em}
 
-/* barra superior */
-.bar{display:flex;flex-wrap:wrap;justify-content:space-between;gap:.25rem 1.5rem;padding-block:1rem}
-.bar nav{display:flex;flex-wrap:wrap;gap:.25rem 1.25rem}
-.bar a{display:inline-block;padding:.25rem 0}
+/* menu em pílula */
+.nav-wrap{padding-left:var(--gutter);padding-right:var(--gutter-r)}
+.nav{position:sticky;top:max(12px,env(safe-area-inset-top,0px));z-index:20;margin:12px auto 0;max-width:62rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.5rem .6rem .5rem 1.1rem;border:1px solid var(--line);border-radius:999px;background:rgba(15,25,24,.82);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.brand{font:900 1.35rem/1 var(--display);letter-spacing:.04em;text-decoration:none}
+.nav ul{display:flex;gap:1.5rem;list-style:none;margin:0;padding:0;font-size:.95rem}
+.nav ul a{text-decoration:none;color:var(--muted);padding:.4rem 0;display:inline-block}
+.nav ul a:hover{color:var(--ink)}
+.btn{display:inline-flex;align-items:center;gap:.5rem;min-height:44px;padding:.6rem 1.25rem;border-radius:999px;border:1px solid var(--line);font-weight:700;font-size:.95rem;text-decoration:none;background:transparent;color:var(--ink);transition:transform .2s,background .2s,border-color .2s;cursor:pointer;font-family:inherit}
+.btn:hover{border-color:var(--ink);transform:translateY(-1px)}
+.btn.red{background:var(--red);border-color:var(--red);color:#fff}
+.btn.red:hover{background:#E8363A;border-color:#E8363A}
 
-/* nome */
-.mark{font:800 clamp(3.5rem,17.5vw,16rem)/.86 var(--display);letter-spacing:-.04em;margin:2.5rem 0 3rem}
-.hero-grid{display:grid;grid-template-columns:minmax(0,18rem) minmax(0,1fr);gap:1.5rem 2rem;padding-bottom:4rem}
-.meta{display:grid;grid-template-columns:6.5rem minmax(0,1fr);gap:.5rem 1rem;margin:0}
-.meta dt{color:var(--mute)}
-.meta dd{margin:0}
-.statement{margin:0;font:500 clamp(1.25rem,2.4vw,2rem)/1.3 var(--display);max-width:38rem;letter-spacing:-.01em}
+/* celular (ideia do mockup de iPhone do Cult UI) */
+.phone{position:relative;border-radius:2.6rem;padding:.55rem;background:linear-gradient(150deg,#313c3b,#0b100f 60%);box-shadow:0 40px 70px -28px rgba(0,0,0,.85),0 0 0 1px rgba(255,255,255,.09)}
+.phone::after{content:"";position:absolute;top:1.15rem;left:50%;width:27%;height:1.05rem;transform:translateX(-50%);background:#000;border-radius:999px;z-index:3}
+.screens{position:relative;border-radius:2.1rem;overflow:hidden;aspect-ratio:390/894;background:var(--sbg,#101818)}
+.screens img{position:absolute;left:0;right:0;bottom:0;width:100%;height:auto;aspect-ratio:390/844;display:block;opacity:0;transition:opacity .7s ease}
+.screens img.on{opacity:1}
 
-/* títulos de seção */
-.label{display:flex;justify-content:space-between;gap:1rem;font:700 14px/1.6 var(--mono);margin:0;padding-block:.75rem;border-top:1px solid var(--rule)}
-.label span{font-weight:400;color:var(--mute)}
+/* hero */
+.hero{position:relative;overflow:hidden;padding-block:3rem 0}
+.ghost{position:absolute;left:0;right:0;top:2.5rem;font:900 clamp(5rem,22.5vw,21rem)/.8 var(--display);letter-spacing:-.01em;color:var(--ghost);white-space:nowrap;pointer-events:none;user-select:none;text-align:center}
+.hero .wrap{position:relative;z-index:1}
+.hero .row{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:2.5rem}
+.hero-in{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:2rem 3rem;align-items:center}
+.hero h1{font:900 clamp(3.4rem,9vw,7.2rem)/.9 var(--display);letter-spacing:-.005em;margin:0 0 1.5rem;text-transform:uppercase}
+.hero h1 em{font-style:normal;color:var(--red-text)}
+.hero p.lead{font-size:1.2rem;max-width:34rem;margin:0 0 1.75rem;color:var(--soft)}
+.cta{display:flex;flex-wrap:wrap;gap:.75rem;margin-bottom:2.5rem}
+.stats{display:flex;flex-wrap:wrap;border-top:1px solid var(--line);max-width:34rem}
+.stats div{flex:1 1 8rem;padding:1rem 1rem 0 0}
+.stats b{display:block;font:800 2.6rem/1 var(--display);color:var(--red-text)}
+.stats span{font-size:.9rem;color:var(--muted)}
+.cluster{position:relative;width:100%;max-width:36rem;margin-inline:auto;aspect-ratio:1/1.12}
+.cluster .phone{position:absolute}
+.cl-a{width:44%;left:0;top:16%;transform:rotate(-6deg);z-index:1}
+.cl-b{width:50%;left:25%;top:0;z-index:3}
+.cl-c{width:44%;right:0;top:20%;transform:rotate(6deg);z-index:2}
+.ticker{margin-top:3.5rem;border-block:1px solid var(--line);overflow:hidden;white-space:nowrap}
+.ticker div{display:inline-flex;gap:2.5rem;padding:.9rem 0;font:800 1.5rem/1 var(--display);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);will-change:transform}
+.ticker span::after{content:"\25C6";margin-left:2.5rem;color:var(--red-text);font-size:.7em;vertical-align:.12em}
 
-/* índice */
-.index{list-style:none;margin:0 0 5rem;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--rule);border-left:1px solid var(--rule)}
-.index a{display:flex;flex-direction:column;justify-content:space-between;gap:1rem;aspect-ratio:1;padding:.9rem;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);text-decoration:none;min-width:0}
-.index .nm{font:700 clamp(1.15rem,2vw,1.6rem)/1.05 var(--display);letter-spacing:-.015em;overflow-wrap:anywhere}
-.index .ty{font-size:13px;line-height:1.4;color:var(--mute)}
-.index a:hover,.index a:focus-visible{background:var(--fg);color:var(--bg);outline:none}
-.index a:hover .ty,.index a:focus-visible .ty{color:inherit}
-.index a:focus-visible{outline:2px solid var(--fg);outline-offset:-6px;outline-color:var(--bg)}
+/* seções */
+section{scroll-margin-top:6rem}
+.sec{padding-block:5rem 0}
+.sec-h{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;border-top:1px solid var(--line);padding-top:1rem;margin-bottom:2.25rem}
+.sec-h h2{font:900 clamp(2.4rem,6vw,4.2rem)/.95 var(--display);margin:0;text-transform:uppercase}
+.svc{display:grid;grid-template-columns:minmax(0,16rem) minmax(0,1fr);gap:.5rem 3rem;padding-block:1.6rem;border-top:1px solid var(--line)}
+.svc:last-child{border-bottom:1px solid var(--line)}
+.svc h3{font:800 1.9rem/1 var(--display);margin:0;text-transform:uppercase}
+.svc p{margin:0;max-width:40rem;color:var(--soft)}
 
-/* fichas */
-.sheets{margin-bottom:5rem}
-.sheet{display:grid;grid-template-columns:minmax(0,18rem) minmax(0,1fr);gap:1rem 2rem;padding-block:2rem 2.5rem;border-top:1px solid var(--rule);scroll-margin-top:1rem}
-.sheet h3{font:800 clamp(1.6rem,3vw,2.25rem)/1.02 var(--display);letter-spacing:-.025em;margin:0 0 .75rem}
-.sheet .kind{margin:0;color:var(--mute)}
-.sheet .state{margin:.25rem 0 0;font-weight:700}
-.sheet dl{display:grid;grid-template-columns:9rem minmax(0,1fr);gap:.9rem 1.5rem;margin:0;max-width:60rem}
-.sheet dt{color:var(--mute)}
-.sheet dd{margin:0;max-width:44rem}
+/* projetos: uma faixa de cor por app */
+.band{background:var(--tint);border-block:1px solid var(--line)}
+.proj{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,26rem);gap:3rem 5rem;align-items:center;padding-block:4.5rem}
+.proj.flip{grid-template-columns:minmax(0,26rem) minmax(0,1fr)}
+.proj.flip .info{order:2}
+.num{font:800 1.4rem/1 var(--display);color:var(--red-text)}
+.proj h3{font:900 clamp(2.6rem,6.4vw,5rem)/.92 var(--display);margin:.4rem 0 1rem;text-transform:uppercase}
+.state{display:inline-flex;align-items:center;gap:.45rem;font:500 .72rem/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:.35rem .75rem;margin-bottom:1.25rem}
+.state.on::before{content:"";width:.45rem;height:.45rem;border-radius:50%;background:#4ADE80}
+.proj p.what{font-size:1.2rem;max-width:34rem;margin:0 0 1.25rem;color:var(--ink)}
+.pts{list-style:none;margin:0 0 1.25rem;padding:0;display:grid;gap:.5rem;max-width:34rem}
+.pts li{padding-left:1.4rem;position:relative;color:var(--soft)}
+.pts li::before{content:"";position:absolute;left:0;top:.62rem;width:.5rem;height:.5rem;background:var(--red-text);transform:rotate(45deg)}
+.tags{display:flex;flex-wrap:wrap;gap:.4rem;margin:0 0 .75rem;padding:0;list-style:none}
+.tags li{font:400 .72rem/1.3 var(--mono);padding:.22rem .6rem;border:1px solid var(--line);border-radius:999px;color:var(--muted)}
+details{margin-top:.25rem}
+summary{cursor:pointer;list-style:none;display:inline-flex;align-items:center;gap:.5rem;font-weight:700;font-size:.95rem;color:var(--red-text);padding:.4rem 0;min-height:44px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font:500 1.3rem/1 var(--mono);transition:transform .2s}
+details[open] summary::after{transform:rotate(45deg)}
+details dl{margin:.25rem 0 0;display:grid;grid-template-columns:7.2rem minmax(0,1fr);gap:.7rem 1rem;font-size:.95rem;border-top:1px solid var(--line);padding-top:1rem;max-width:36rem}
+details dt{color:var(--muted);font:400 .75rem/1.6 var(--mono);letter-spacing:.05em;text-transform:uppercase}
+details dd{margin:0;color:var(--soft)}
+.stage{display:flex;flex-direction:column;align-items:center;gap:1rem;perspective:1200px}
+.tilt{width:min(100%,21rem);transition:transform .25s ease-out;transform-style:preserve-3d;will-change:transform}
+.ctl{display:flex;align-items:center;gap:.5rem}
+.ctl button{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:rgba(8,14,14,.6);color:var(--ink);font:500 1.1rem/1 var(--mono);cursor:pointer;display:grid;place-items:center}
+.ctl button:hover{border-color:var(--ink)}
+.cap{margin:0;min-height:3.2em;max-width:21rem;text-align:center;font-size:.92rem;color:var(--soft)}
+.sample{font:400 .7rem/1.4 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0}
 
-/* método */
-.method{display:grid;grid-template-columns:minmax(0,18rem) minmax(0,1fr);gap:1rem 2rem;padding-block:2rem 4rem;border-top:1px solid var(--rule)}
-.method dl{display:grid;grid-template-columns:9rem minmax(0,1fr);gap:.9rem 1.5rem;margin:0;max-width:60rem}
-.method dt{font-weight:700}
-.method dd{margin:0;max-width:44rem}
-.method h2{margin:0;font:700 14px/1.6 var(--mono)}
+/* outros projetos */
+.rows{border-top:1px solid var(--line)}
+.row2{display:grid;grid-template-columns:minmax(0,14rem) minmax(0,1fr) auto;gap:.5rem 2.5rem;align-items:start;padding-block:1.6rem;border-bottom:1px solid var(--line)}
+.row2 h3{font:800 1.9rem/1 var(--display);margin:0;text-transform:uppercase}
+.row2 p{margin:0 0 .6rem;color:var(--soft);max-width:42rem}
+.row2 .state{margin:0}
+.note{font-size:.85rem;color:var(--muted);margin-top:1.5rem}
 
-footer{border-top:1px solid var(--rule);padding-block:2rem 3rem}
-footer .big{font:800 clamp(1.4rem,3.4vw,2.6rem)/1.1 var(--display);letter-spacing:-.02em;margin:0 0 1.25rem;overflow-wrap:anywhere}
-footer p{margin:.25rem 0}
-.small{color:var(--mute)}
+/* processo */
+.proc{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.8fr);gap:3rem;align-items:start}
+.steps{list-style:none;margin:0;padding:0;position:relative;max-width:46rem}
+.steps::before{content:"";position:absolute;left:1.55rem;top:1.5rem;bottom:1.5rem;width:1px;background:var(--line)}
+.steps li{position:relative;display:grid;grid-template-columns:3.1rem minmax(0,1fr);gap:1.25rem;padding-block:.9rem}
+.steps .n{width:3.1rem;height:3.1rem;border-radius:50%;border:1px solid var(--red-text);background:var(--bg);display:grid;place-items:center;font:800 1.2rem/1 var(--display);color:var(--red-text);position:relative;z-index:1}
+.steps h3{font:800 1.5rem/1.1 var(--display);margin:.1rem 0 .15rem;text-transform:uppercase}
+.steps p{margin:0;color:var(--soft)}
+.quote{border:1px solid var(--line);border-radius:18px;padding:1.75rem;background:var(--surface);position:sticky;top:6rem}
+.quote q{display:block;font:800 clamp(1.8rem,3.4vw,2.6rem)/1 var(--display);text-transform:uppercase;quotes:none}
+.quote q em{font-style:normal;color:var(--red-text)}
+.quote p{margin:1rem 0 0;color:var(--muted)}
+
+/* sobre */
+.about{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:3rem}
+.about h3{font:800 1.5rem/1 var(--display);margin:0 0 .9rem;text-transform:uppercase}
+.about p{margin:0 0 1rem;color:var(--soft);max-width:34rem}
+.chips{display:flex;flex-wrap:wrap;gap:.5rem;margin:0;padding:0;list-style:none}
+.chips li{padding:.4rem .9rem;border:1px solid var(--line);border-radius:10px;font:400 .85rem/1.3 var(--mono)}
+
+/* contato */
+.contact{margin-top:5rem;border-top:1px solid var(--line);padding-block:4rem 3rem}
+.contact h2{font:900 clamp(2.6rem,8vw,6.5rem)/.9 var(--display);margin:0 0 1.5rem;text-transform:uppercase;max-width:14ch}
+.contact .mail{display:block;font:800 clamp(1.4rem,4vw,2.8rem)/1.1 var(--display);letter-spacing:.02em;margin-bottom:1.5rem;overflow-wrap:anywhere}
+.links{display:flex;flex-wrap:wrap;gap:.6rem}
+.foot{border-top:1px solid var(--line);padding-block:1.25rem 2rem;color:var(--muted);font-size:.9rem;display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+
+/* movimento */
+@media (prefers-reduced-motion:no-preference){
+  .hero .row,.hero h1,.hero p.lead,.cta,.stats{animation:up .8s cubic-bezier(.2,.7,.2,1) both}
+  .hero h1{animation-delay:.08s}.hero p.lead{animation-delay:.16s}.cta{animation-delay:.24s}.stats{animation-delay:.32s}
+  .cl-a{animation:ra 1s .25s cubic-bezier(.2,.7,.2,1) both,fa 8s 1.3s ease-in-out infinite}
+  .cl-b{animation:rb 1s .1s cubic-bezier(.2,.7,.2,1) both,fb 7s 1.2s ease-in-out infinite}
+  .cl-c{animation:rc 1s .4s cubic-bezier(.2,.7,.2,1) both,fc 9s 1.4s ease-in-out infinite}
+  @keyframes up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+  @keyframes ra{from{opacity:0;transform:translateY(40px) rotate(-6deg)}to{opacity:1;transform:rotate(-6deg)}}
+  @keyframes rb{from{opacity:0;transform:translateY(50px)}to{opacity:1;transform:none}}
+  @keyframes rc{from{opacity:0;transform:translateY(40px) rotate(6deg)}to{opacity:1;transform:rotate(6deg)}}
+  @keyframes fa{50%{transform:translateY(-10px) rotate(-6deg)}}
+  @keyframes fb{50%{transform:translateY(-14px)}}
+  @keyframes fc{50%{transform:translateY(-8px) rotate(6deg)}}
+  @supports (animation-timeline:view()){
+    .rise{animation:rise linear both;animation-timeline:view();animation-range:entry 0% entry 35%}
+    @keyframes rise{from{opacity:.6;transform:translateY(22px)}to{opacity:1;transform:none}}
+  }
+}
 
 @media (max-width:62rem){
-  .index{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .hero-in,.proc,.about{grid-template-columns:minmax(0,1fr)}
+  .quote{position:static}
+  .proj,.proj.flip{grid-template-columns:minmax(0,1fr);gap:2.5rem}
+  .proj.flip .info{order:0}
+  .cluster{max-width:28rem}
+  .row2{grid-template-columns:minmax(0,1fr)}
 }
-@media (max-width:48rem){
-  .hero-grid,.sheet,.method{grid-template-columns:minmax(0,1fr)}
-  .sheet dl,.method dl{grid-template-columns:minmax(0,1fr);gap:.15rem}
-  .sheet dd,.method dd{margin-bottom:.9rem}
-  .mark{margin:1.5rem 0 2rem}
+@media (max-width:44rem){
+  .nav ul{display:none}
+  .nav{padding-left:1rem}
+  .svc{grid-template-columns:minmax(0,1fr)}
+  .sec{padding-block:3.5rem 0}
+  .proj{padding-block:3rem}
+  details dl{grid-template-columns:minmax(0,1fr);gap:.1rem}
+  details dd{margin-bottom:.7rem}
+  .phone{border-radius:2.2rem}
+  .screens{border-radius:1.75rem}
 }
 </style>
 
 <a class="skip" href="#projetos">Pular para os projetos</a>
 
-<header class="bar wrap">
-  <span>Tavernard, sites e sistemas web</span>
-  <nav aria-label="Perfis e contato">
-    <a href="https://github.com/SirShain">GitHub</a>
-    <a href="https://www.linkedin.com/in/pedrotavernard/">LinkedIn</a>
-    <a href="https://www.behance.net/pedrotavernard2">Behance</a>
-    <a href="#contato">Contato</a>
+<div class="nav-wrap">
+  <nav class="nav" aria-label="Principal">
+    <a class="brand" href="#topo">TAVERNARD</a>
+    <ul>
+      <li><a href="#servicos">O que faço</a></li>
+      <li><a href="#projetos">Projetos</a></li>
+      <li><a href="#processo">Processo</a></li>
+      <li><a href="#sobre">Sobre</a></li>
+    </ul>
+    <a class="btn red" href="#contato">Falar comigo</a>
   </nav>
+</div>
+
+<main id="topo">
+<header class="hero">
+  <div class="ghost" aria-hidden="true">TAVERNARD</div>
+  <div class="wrap">
+    <div class="row hud"><span>Pedro Tavernard · Desenvolvedor web</span><span><i class="dot"></i>Disponível para projetos e estágio</span></div>
+    <div class="hero-in">
+      <div>
+        <h1>Sites e sistemas para o <em>seu negócio.</em></h1>
+        <p class="lead">Eu sou o Pedro. Planejo, desenho e programo sites, sistemas com login e aplicativos instaláveis no celular para pequenos negócios. Estudo Ciência da Computação na UVA.</p>
+        <div class="cta">
+          <a class="btn red" href="#projetos">Ver projetos</a>
+          <a class="btn" href="#contato">Pedir um orçamento</a>
+        </div>
+        <div class="stats">
+          <div><b>7</b><span>projetos no portfólio</span></div>
+          <div><b>4</b><span>já em uso</span></div>
+          <div><b>4º</b><span>semestre de Ciência da Computação</span></div>
+        </div>
+      </div>
+      <div class="cluster">
+        <div class="phone cl-a"><div class="screens" style="--sbg:#f3f5ef"><img class="on" src="assets/vitrine-inicio.webp" alt="Tela inicial do app Vitrine, com botões Vender, Estoque e Divulgar" width="780" height="1688"></div></div>
+        <div class="phone cl-b"><div class="screens" style="--sbg:#0d1c21"><img class="on" src="assets/dia-hoje.webp" alt="Tela Seu dia do app Dia a Dia, com saldo e quanto dá para gastar por dia" width="780" height="1688"></div></div>
+        <div class="phone cl-c"><div class="screens" style="--sbg:#13151a"><img class="on" src="assets/marg-obras.webp" alt="Tela Obras do app Marginália, com capas de livros e mangás" width="780" height="1688"></div></div>
+      </div>
+    </div>
+    <div class="ticker" aria-hidden="true"><div id="tk">
+      <span>Sites</span><span>Sistemas</span><span>Aplicativos no celular</span><span>Segurança</span><span>Testes</span><span>Privacidade</span>
+      <span>Sites</span><span>Sistemas</span><span>Aplicativos no celular</span><span>Segurança</span><span>Testes</span><span>Privacidade</span>
+      <span>Sites</span><span>Sistemas</span><span>Aplicativos no celular</span><span>Segurança</span><span>Testes</span><span>Privacidade</span>
+    </div></div>
+  </div>
 </header>
 
-<main>
-<section class="wrap" aria-labelledby="t-nome">
-  <h1 class="mark" id="t-nome">Tavernard</h1>
-  <div class="hero-grid">
-    <dl class="meta">
-      <dt>Responsável</dt><dd>Pedro Tavernard</dd>
-      <dt>Formação</dt><dd>Ciência da Computação, Universidade Veiga de Almeida, 2º ano</dd>
-      <dt>Local</dt><dd>São Pedro da Aldeia, RJ</dd>
-      <dt>Idiomas</dt><dd>Português, inglês (B1)</dd>
-      <dt>Disponível</dt><dd>Projetos de site e estágio em desenvolvimento</dd>
-      <dt>Stack</dt><dd>JavaScript, Node.js, React, Python, PostgreSQL, SQLite, Git</dd>
-    </dl>
-    <p class="statement">Sites e sistemas web para pequenos negócios. Cada projeto tem banco de dados com regras de acesso, autenticação, interface que instala no celular e testes. Quatro deles já estão em uso.</p>
+<section class="sec wrap" id="servicos" aria-labelledby="t-svc">
+  <div class="sec-h"><h2 id="t-svc">O que eu faço</h2><span class="hud">Em português claro</span></div>
+  <div class="svc rise"><h3>Sites</h3><p>Páginas de apresentação do negócio: rápidas no celular, com textos escritos para o seu cliente e fotos do próprio negócio.</p></div>
+  <div class="svc rise"><h3>Sistemas</h3><p>Controle de estoque, vendas, agenda ou finanças, com tela de login e banco de dados. Cada pessoa vê só o que é dela.</p></div>
+  <div class="svc rise"><h3>Aplicativos no celular</h3><p>O mesmo sistema instalável como um app, funcionando mesmo sem internet quando isso faz sentido para o negócio.</p></div>
+</section>
+
+<section class="sec" id="projetos" aria-labelledby="t-proj">
+  <div class="wrap"><div class="sec-h"><h2 id="t-proj">Projetos</h2><span class="hud">Telas reais, com dados de exemplo</span></div></div>
+
+  <div class="band" style="--tint:#0A1812">
+    <div class="wrap proj" id="vitrine">
+      <div class="info rise">
+        <span class="num">01</span>
+        <h3>Vitrine</h3>
+        <span class="state on">Em uso</span>
+        <p class="what">Estoque, vendas e fiado de uma vendedora autônoma de cosméticos, no celular e sem precisar de internet.</p>
+        <ul class="pts"><li>Venda com carrinho: dinheiro, Pix, cartão ou fiado.</li><li>Estoque com aviso de produto acabando.</li><li>Anúncio em imagem pronto para o WhatsApp.</li></ul>
+        <ul class="tags"><li>Vendas diretas</li><li>Funciona offline</li><li>App instalável</li></ul>
+        <details><summary>Como funciona</summary>
+          <dl>
+            <dt>Para quem</dt><dd>Consultora de cosméticos que controlava tudo de cabeça e no caderno.</dd>
+            <dt>Decisões</dt><dd>Toda venda pode ser desfeita. O preço sugerido sai da margem escolhida. Os dados ficam no aparelho, com cópia de segurança em arquivo.</dd>
+            <dt>Tecnologias</dt><dd>JavaScript, PWA (app instalável), IndexedDB (banco no aparelho), Service Worker</dd>
+          </dl>
+        </details>
+      </div>
+      <div class="stage" data-carousel>
+        <div class="phone tilt"><div class="screens" style="--sbg:#f3f5ef">
+          <img class="on" src="assets/vitrine-inicio.webp" data-cap="Início: vender, estoque e divulgar a um toque" alt="Vitrine, tela inicial" width="780" height="1688" loading="lazy">
+          <img src="assets/vitrine-receber.webp" data-cap="A receber: quem deve e quando vence" alt="Vitrine, lista de valores a receber" width="780" height="1688" loading="lazy">
+          <img src="assets/vitrine-divulgar.webp" data-cap="Divulgar: anúncio pronto para enviar" alt="Vitrine, anúncio de produto gerado" width="780" height="1688" loading="lazy">
+          <img src="assets/vitrine-resumo.webp" data-cap="Resumo do mês: vendido, lucro e mais vendidos" alt="Vitrine, resumo do mês" width="780" height="1688" loading="lazy">
+        </div></div>
+        <div class="ctl"><button type="button" data-prev aria-label="Tela anterior">&#8592;</button><button type="button" data-pause aria-label="Pausar troca automática">II</button><button type="button" data-next aria-label="Próxima tela">&#8594;</button></div>
+        <p class="cap" aria-live="polite"></p>
+        <p class="sample">Dados de exemplo</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="band" style="--tint:#08171A">
+    <div class="wrap proj flip" id="prumo">
+      <div class="stage" data-carousel>
+        <div class="phone tilt"><div class="screens" style="--sbg:#0d1c21">
+          <img class="on" src="assets/dia-hoje.webp" data-cap="Hoje: saldo e quanto dá para gastar por dia" alt="Dia a Dia, tela Seu dia" width="780" height="1688" loading="lazy">
+          <img src="assets/dia-lista.webp" data-cap="Lista: tudo o que foi gasto, dia a dia" alt="Dia a Dia, lista de lançamentos" width="780" height="1688" loading="lazy">
+          <img src="assets/dia-mes.webp" data-cap="Mês: para onde o dinheiro foi" alt="Dia a Dia, resumo do mês por categoria" width="780" height="1688" loading="lazy">
+          <img src="assets/dia-oculto.webp" data-cap="Valores escondidos com um toque" alt="Dia a Dia, valores escondidos" width="780" height="1688" loading="lazy">
+        </div></div>
+        <div class="ctl"><button type="button" data-prev aria-label="Tela anterior">&#8592;</button><button type="button" data-pause aria-label="Pausar troca automática">II</button><button type="button" data-next aria-label="Próxima tela">&#8594;</button></div>
+        <p class="cap" aria-live="polite"></p>
+        <p class="sample">Dados de exemplo</p>
+      </div>
+      <div class="info rise">
+        <span class="num">02</span>
+        <h3>Prumo e Dia a Dia</h3>
+        <span class="state on">Em uso</span>
+        <p class="what">Controle de gastos pelo celular. O Prumo lê a fatura do banco em PDF; o Dia a Dia registra cada gasto em poucos toques.</p>
+        <ul class="pts"><li>Registrar um gasto leva três toques.</li><li>Resumo do mês por categoria.</li><li>Valores escondidos com um toque, para usar perto de outras pessoas.</li></ul>
+        <ul class="tags"><li>Finanças pessoais</li><li>Dados só no aparelho</li><li>App instalável</li></ul>
+        <details><summary>Como funciona</summary>
+          <dl>
+            <dt>Para quem</dt><dd>Quem quer entender o mês financeiro sem criar conta em lugar nenhum.</dd>
+            <dt>O que faz</dt><dd>O Prumo importa fatura e extrato em PDF (Itaú), confere se as somas batem e mostra o mês por categoria. O Dia a Dia registra Pix, débito e dinheiro à mão.</dd>
+            <dt>Decisões</dt><dd>Se a soma do PDF não bate, o app avisa em vez de mostrar valor errado. Os dados ficam cifrados no próprio celular (criptografia AES-256), com desbloqueio por PIN e digital, e nenhum servidor externo.</dd>
+            <dt>Tecnologias</dt><dd>JavaScript, PWA, Web Crypto, WebAuthn, pdf.js</dd>
+          </dl>
+        </details>
+      </div>
+    </div>
+  </div>
+
+  <div class="band" style="--tint:#0C0F12">
+    <div class="wrap proj" id="marginalia">
+      <div class="info rise">
+        <span class="num">03</span>
+        <h3>Marginália</h3>
+        <span class="state on">Em uso</span>
+        <p class="what">Diário de livros, mangás, filmes, séries e jogos, onde cada pessoa escolhe o que compartilhar.</p>
+        <ul class="pts"><li>Capas e dados preenchidos automaticamente.</li><li>Diário com resenhas, metas e estatísticas.</li><li>Privado por padrão; compartilhar é decisão registro a registro.</li></ul>
+        <ul class="tags"><li>Diário de mídia</li><li>Login e banco de dados</li><li>Importa de outros apps</li></ul>
+        <details><summary>Como funciona</summary>
+          <dl>
+            <dt>Para quem</dt><dd>Pessoas que querem registrar o que leem e assistem e decidir o que mostrar a quem está conectado com elas.</dd>
+            <dt>Decisões</dt><dd>A privacidade está no banco de dados (Row Level Security: uma regra que impede um usuário de ler os dados de outro), não só na tela. Tem recuperação de senha, política de privacidade e exclusão de dados (LGPD).</dd>
+            <dt>Tecnologias</dt><dd>Supabase (Postgres, login, arquivos), JavaScript, PWA</dd>
+          </dl>
+        </details>
+      </div>
+      <div class="stage" data-carousel>
+        <div class="phone tilt"><div class="screens" style="--sbg:#13151a">
+          <img class="on" src="assets/marg-obras.webp" data-cap="Obras: tudo o que você leu, assistiu e jogou" alt="Marginália, grade de obras com capas" width="780" height="1688" loading="lazy">
+          <img src="assets/marg-diario.webp" data-cap="Diário: cada registro, com data" alt="Marginália, diário por mês" width="780" height="1688" loading="lazy">
+          <img src="assets/marg-resenhas.webp" data-cap="Resenhas: o que você escreveu" alt="Marginália, resenhas" width="780" height="1688" loading="lazy">
+          <img src="assets/marg-perfil.webp" data-cap="Perfil: metas e o que está em andamento" alt="Marginália, perfil com metas" width="780" height="1688" loading="lazy">
+        </div></div>
+        <div class="ctl"><button type="button" data-prev aria-label="Tela anterior">&#8592;</button><button type="button" data-pause aria-label="Pausar troca automática">II</button><button type="button" data-next aria-label="Próxima tela">&#8594;</button></div>
+        <p class="cap" aria-live="polite"></p>
+        <p class="sample">Dados e capas de exemplo (Open Library e AniList)</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap" style="padding-top:4rem">
+    <div class="sec-h"><h2 style="font-size:clamp(1.8rem,4vw,2.8rem)">Mais projetos</h2><span class="hud">Em uso, em andamento e da faculdade</span></div>
+    <div class="rows">
+      <div class="row2 rise" id="ninho">
+        <h3>Ninho</h3>
+        <div>
+          <p>Chat com chamadas de voz e vídeo para dois usuários, em servidor próprio. Verificação em duas etapas, limite de tentativas de login e testes automáticos de tela.</p>
+          <ul class="tags"><li>React</li><li>Node.js</li><li>SQLite</li><li>LiveKit</li><li>Playwright</li></ul>
+        </div>
+        <span class="state on">Em uso</span>
+      </div>
+      <div class="row2 rise" id="codice">
+        <h3>Códice</h3>
+        <div>
+          <p>Cadernos digitais, cada um com visual próprio. Busca, lixeira, histórico de versões, cadernos protegidos por senha e exportação em Markdown.</p>
+          <ul class="tags"><li>JavaScript</li><li>PWA</li><li>Supabase</li></ul>
+        </div>
+        <span class="state">Pronto, falta hospedar</span>
+      </div>
+      <div class="row2 rise" id="scout">
+        <h3>Scout Fla</h3>
+        <div>
+          <p>Sistema para avaliar jogadores e registrar partidas de futebol: avaliação por jogo, visão da temporada, mapa de calor e quadro tático.</p>
+          <ul class="tags"><li>Python</li><li>SQLite</li><li>JavaScript</li></ul>
+        </div>
+        <span class="state">Em desenvolvimento</span>
+      </div>
+      <div class="row2 rise" id="lumyn">
+        <h3>Lumyn</h3>
+        <div>
+          <p>Trabalho da faculdade: conceito de uma startup de saúde emocional. Projeto acadêmico, sem produto em uso. <a href="https://www.behance.net/pedrotavernard2">Ver no Behance</a>.</p>
+        </div>
+        <span class="state">Conceito</span>
+      </div>
+    </div>
   </div>
 </section>
 
-<section class="wrap" id="projetos" aria-labelledby="t-proj">
-  <h2 class="label" id="t-proj">Projetos <span>7 itens</span></h2>
-  <ul class="index">
-    <li><a href="#prumo"><span class="nm">Prumo e Dia a Dia</span><span class="ty">Finanças pessoais<br>Em uso</span></a></li>
-    <li><a href="#vitrine"><span class="nm">Vitrine</span><span class="ty">Gestão de vendas diretas<br>Em uso</span></a></li>
-    <li><a href="#marginalia"><span class="nm">Marginália</span><span class="ty">Diário de mídia<br>Em uso</span></a></li>
-    <li><a href="#ninho"><span class="nm">Ninho</span><span class="ty">Comunicação privada<br>Em uso</span></a></li>
-    <li><a href="#codice"><span class="nm">Códice</span><span class="ty">Cadernos digitais<br>Pronto, falta hospedar</span></a></li>
-    <li><a href="#scout"><span class="nm">Scout Fla</span><span class="ty">Análise no futebol<br>Em desenvolvimento</span></a></li>
-    <li><a href="#lumyn"><span class="nm">Lumyn</span><span class="ty">Trabalho da faculdade<br>Conceito</span></a></li>
-    <li><a href="#contato"><span class="nm">Contato</span><span class="ty">E-mail, LinkedIn, GitHub, Behance</span></a></li>
-  </ul>
-
-  <div class="sheets">
-    <article class="sheet" id="prumo">
-      <div><h3>Prumo e Dia a Dia</h3><p class="kind">Finanças pessoais</p><p class="state">Em uso</p></div>
-      <dl>
-        <dt>Contexto</dt><dd>Dois apps de finanças para Android, instaláveis como PWA. O Prumo é de uso mensal; o Dia a Dia, diário.</dd>
-        <dt>O que faz</dt><dd>O Prumo importa a fatura do cartão e o extrato em PDF (Itaú) e mostra o mês por categoria. O Dia a Dia registra Pix, débito e dinheiro à mão.</dd>
-        <dt>Decisões</dt><dd>Confere as somas do PDF antes de aceitar o arquivo, para não exibir valor errado. Dados cifrados no aparelho (AES-256-GCM), desbloqueio por PIN e digital (WebAuthn), nenhum servidor externo e política de segurança de conteúdo (CSP) ativa.</dd>
-        <dt>Stack</dt><dd>JavaScript, PWA, Web Crypto, WebAuthn, pdf.js, Netlify</dd>
-      </dl>
-    </article>
-
-    <article class="sheet" id="vitrine">
-      <div><h3>Vitrine</h3><p class="kind">Gestão de vendas diretas</p><p class="state">Em uso</p></div>
-      <dl>
-        <dt>Contexto</dt><dd>Aplicativo para uma consultora de cosméticos controlar estoque, vendas, fiado e clientes pelo celular.</dd>
-        <dt>O que faz</dt><dd>Venda com carrinho e pagamento em dinheiro, Pix, cartão ou fiado; estoque com alerta de baixa; fiado com vencimentos; resumo mensal com lucro; anúncio em imagem e mensagens de cobrança para WhatsApp.</dd>
-        <dt>Decisões</dt><dd>Funciona sem internet, com dados no aparelho (IndexedDB) e cópia de segurança em arquivo. Preço sugerido por margem, com final em ,90. Toda venda pode ser desfeita. Pagamentos de fiado abatem as compras mais antigas primeiro.</dd>
-        <dt>Stack</dt><dd>JavaScript (módulos), PWA, IndexedDB, Service Worker, Netlify</dd>
-      </dl>
-    </article>
-
-    <article class="sheet" id="marginalia">
-      <div><h3>Marginália</h3><p class="kind">Diário de mídia</p><p class="state">Em uso</p></div>
-      <dl>
-        <dt>Contexto</dt><dd>Registro de livros, mangás, HQs, filmes, séries, animes e jogos, para usuários conectados entre si.</dd>
-        <dt>O que faz</dt><dd>Catálogo com capa automática a partir de cinco fontes, progresso, resenhas, listas, metas anuais, estatísticas, importação de CSV (Goodreads, StoryGraph, Letterboxd), perfil personalizável e três temas.</dd>
-        <dt>Decisões</dt><dd>Isolamento de dados por Row Level Security no Postgres: tudo é privado por padrão e o compartilhamento é decidido por registro. Recuperação de senha, exclusão de dados e política de privacidade (LGPD). Sincronização por diferença, com envio adiado.</dd>
-        <dt>Stack</dt><dd>Supabase (Postgres, Auth, Storage), JavaScript, PWA, AniList, TMDB, RAWG</dd>
-      </dl>
-    </article>
-
-    <article class="sheet" id="ninho">
-      <div><h3>Ninho</h3><p class="kind">Comunicação privada</p><p class="state">Em uso</p></div>
-      <dl>
-        <dt>Contexto</dt><dd>Aplicativo para dois usuários, hospedado em servidor próprio.</dd>
-        <dt>O que faz</dt><dd>Chat, chamadas de voz e vídeo, assistente de IA integrado e instalação no celular.</dd>
-        <dt>Decisões</dt><dd>Verificação em duas etapas (app autenticador e códigos de reserva), limite de tentativas, cabeçalhos de segurança, exportação de dados, testes automáticos e de tela.</dd>
-        <dt>Stack</dt><dd>React, Vite, Node.js (Fastify), SQLite, LiveKit, Tailscale, Playwright</dd>
-      </dl>
-    </article>
-
-    <article class="sheet" id="codice">
-      <div><h3>Códice</h3><p class="kind">Cadernos digitais</p><p class="state">Pronto, falta hospedar</p></div>
-      <dl>
-        <dt>Contexto</dt><dd>Anotações organizadas em cadernos, cada um com identidade visual própria.</dd>
-        <dt>O que faz</dt><dd>Páginas e blocos livres, busca em todos os cadernos, lixeira, histórico de versões, cadernos protegidos por senha, revisão com repetição espaçada e exportação em Markdown.</dd>
-        <dt>Decisões</dt><dd>Sincronização por caderno com cópia local para uso offline. Imagens em Storage privado. Criptografia no navegador nos cadernos protegidos.</dd>
-        <dt>Stack</dt><dd>JavaScript, PWA, Supabase</dd>
-      </dl>
-    </article>
-
-    <article class="sheet" id="scout">
-      <div><h3>Scout Fla</h3><p class="kind">Análise no futebol</p><p class="state">Em desenvolvimento</p></div>
-      <dl>
-        <dt>Contexto</dt><dd>Sistema para avaliar jogadores e registrar partidas.</dd>
-        <dt>O que faz</dt><dd>Cadastro de jogos e elenco, avaliação por partida (nota, minutos, gols, assistências, desarmes), visão da temporada, mapa de calor e quadro tático.</dd>
-        <dt>Decisões</dt><dd>Dados locais em SQLite; as anotações do usuário nunca são sobrescritas pela sincronização. A próxima versão importa o elenco colando texto de sites, sem depender de API.</dd>
-        <dt>Stack</dt><dd>Python, SQLite, JavaScript</dd>
-      </dl>
-    </article>
-
-    <article class="sheet" id="lumyn">
-      <div><h3>Lumyn</h3><p class="kind">Trabalho da faculdade</p><p class="state">Conceito</p></div>
-      <dl>
-        <dt>Contexto</dt><dd>Conceito de startup de saúde emocional, desenvolvido como trabalho da graduação. Não é um produto em uso.</dd>
-        <dt>Onde ver</dt><dd><a href="https://www.behance.net/pedrotavernard2">Behance</a></dd>
-      </dl>
-    </article>
+<section class="sec wrap" id="processo" aria-labelledby="t-proc">
+  <div class="sec-h"><h2 id="t-proc">Como eu trabalho</h2><span class="hud">Do primeiro contato ao site no ar</span></div>
+  <div class="proc">
+    <ol class="steps">
+      <li class="rise"><span class="n">1</span><div><h3>Conversa</h3><p>Entendo o negócio, quem vai usar e o que precisa funcionar primeiro.</p></div></li>
+      <li class="rise"><span class="n">2</span><div><h3>Desenho</h3><p>Telas e textos definidos antes de programar. Você aprova antes de seguir.</p></div></li>
+      <li class="rise"><span class="n">3</span><div><h3>Construção</h3><p>Programo em etapas pequenas e mostro cada uma.</p></div></li>
+      <li class="rise"><span class="n">4</span><div><h3>Testes</h3><p>Teste no celular e no computador, segurança do login e dos dados, acessibilidade e LGPD.</p></div></li>
+      <li class="rise"><span class="n">5</span><div><h3>Publicação</h3><p>Coloco no ar e explico como usar.</p></div></li>
+    </ol>
+    <aside class="quote rise">
+      <q>Um site bom <em>não é só bonito.</em> É o que o cliente entende e usa.</q>
+      <p>Pedro Tavernard</p>
+    </aside>
   </div>
 </section>
 
-<section class="wrap" aria-labelledby="t-metodo">
-  <div class="method">
-    <h2 id="t-metodo">Como eu trabalho</h2>
-    <dl>
-      <dt>Requisitos</dt><dd>Levanto com quem vai usar o que a pessoa precisa e o que fica de fora, antes de escrever código.</dd>
-      <dt>Segurança</dt><dd>Privacidade definida no banco (RLS), cifragem no aparelho quando o app guarda dado financeiro e verificação em duas etapas onde há conta.</dd>
-      <dt>Qualidade</dt><dd>Testes no navegador, auditoria do banco e revisão de acessibilidade e contraste antes de publicar.</dd>
-      <dt>Conformidade</dt><dd>Política de privacidade, termos e exclusão de dados (LGPD) nos apps com conta de usuário.</dd>
-    </dl>
+<section class="sec wrap" id="sobre" aria-labelledby="t-sobre">
+  <div class="sec-h"><h2 id="t-sobre">Sobre</h2><span class="hud">São Pedro da Aldeia, RJ</span></div>
+  <div class="about">
+    <div class="rise">
+      <h3>Quem faz</h3>
+      <p>Pedro Tavernard, estudante de Ciência da Computação na Universidade Veiga de Almeida (Campus Cabo Frio), no 4º semestre.</p>
+      <p>Os quatro primeiros projetos acima estão publicados e em uso. Os outros estão em andamento ou são trabalho de faculdade.</p>
+    </div>
+    <div class="rise">
+      <h3>Ferramentas</h3>
+      <ul class="chips"><li>JavaScript</li><li>Node.js</li><li>React</li><li>Python</li><li>PostgreSQL</li><li>SQLite</li><li>Supabase</li><li>Git</li><li>Playwright</li><li>PWA</li></ul>
+    </div>
   </div>
 </section>
 </main>
 
 <footer class="wrap" id="contato">
-  <p class="big">pedrotwb.oficial@gmail.com</p>
-  <p><a href="https://www.linkedin.com/in/pedrotavernard/">LinkedIn</a> / <a href="https://github.com/SirShain">GitHub</a> / <a href="https://www.behance.net/pedrotavernard2">Behance</a></p>
-  <p>Para pedir um orçamento, escreva por e-mail contando o que o negócio faz e o que precisa.</p>
-  <p class="small">Tavernard, por Pedro Tavernard. São Pedro da Aldeia, RJ. Apresento qualquer um dos projetos em uso numa conversa.</p>
+  <div class="contact">
+    <h2>Vamos conversar sobre o seu projeto?</h2>
+    <span class="mail">pedrotwb.oficial@gmail.com</span>
+    <p style="max-width:34rem;color:var(--muted);margin:0 0 1.5rem">Conte o que o seu negócio faz e o que você precisa. Respondo por e-mail.</p>
+    <div class="links">
+      <a class="btn" href="https://www.linkedin.com/in/pedrotavernard/">LinkedIn</a>
+      <a class="btn" href="https://github.com/SirShain">GitHub</a>
+      <a class="btn" href="https://www.behance.net/pedrotavernard2">Behance</a>
+    </div>
+  </div>
+  <div class="foot"><span>Tavernard, por Pedro Tavernard</span><span>São Pedro da Aldeia, RJ</span></div>
 </footer>
+
+<script>
+(function(){
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* carrossel de telas em celular (ideia do 21st.dev) */
+  document.querySelectorAll('[data-carousel]').forEach(function(root){
+    var imgs = Array.prototype.slice.call(root.querySelectorAll('.screens img'));
+    var cap = root.querySelector('.cap'), pauseBtn = root.querySelector('[data-pause]');
+    var i = 0, timer = null, paused = reduce, visible = false;
+    function show(n){
+      i = (n + imgs.length) % imgs.length;
+      imgs.forEach(function(im, k){ im.classList.toggle('on', k === i); });
+      cap.textContent = imgs[i].getAttribute('data-cap') || '';
+    }
+    function play(){ stop(); if(!paused && visible) timer = setInterval(function(){ show(i + 1); }, 4200); }
+    function stop(){ if(timer){ clearInterval(timer); timer = null; } }
+    root.querySelector('[data-prev]').addEventListener('click', function(){ show(i - 1); play(); });
+    root.querySelector('[data-next]').addEventListener('click', function(){ show(i + 1); play(); });
+    pauseBtn.addEventListener('click', function(){
+      paused = !paused;
+      pauseBtn.textContent = paused ? '▶' : 'II';
+      pauseBtn.setAttribute('aria-label', paused ? 'Retomar troca automática' : 'Pausar troca automática');
+      play();
+    });
+    if(reduce){ pauseBtn.textContent = '▶'; pauseBtn.setAttribute('aria-label', 'Retomar troca automática'); }
+    show(0);
+    if('IntersectionObserver' in window){
+      new IntersectionObserver(function(es){ visible = es[0].isIntersecting; play(); }, {threshold:.35}).observe(root);
+    } else { visible = true; play(); }
+
+    /* cartão inclinado (ideia do React Bits) */
+    var t = root.querySelector('.tilt');
+    if(t && !reduce && window.matchMedia('(hover:hover)').matches){
+      root.addEventListener('pointermove', function(e){
+        var r = t.getBoundingClientRect();
+        var x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+        t.style.transform = 'rotateY(' + (x * 12).toFixed(2) + 'deg) rotateX(' + (-y * 9).toFixed(2) + 'deg)';
+      });
+      root.addEventListener('pointerleave', function(){ t.style.transform = ''; });
+    }
+  });
+
+  /* faixa que acelera com a rolagem (ideia do React Bits) */
+  var tk = document.getElementById('tk');
+  if(tk && !reduce){
+    var pos = 0, last = window.scrollY, vel = 0, w = tk.scrollWidth / 3;
+    window.addEventListener('resize', function(){ w = tk.scrollWidth / 3; });
+    (function loop(){
+      var y = window.scrollY; vel = vel * .9 + (y - last) * .1; last = y;
+      pos -= .6 + Math.min(Math.abs(vel), 40) * .5;
+      if(-pos > w) pos += w;
+      tk.style.transform = 'translateX(' + pos.toFixed(1) + 'px)';
+      requestAnimationFrame(loop);
+    })();
+  }
+})();
+</script>
 
 </body>
 </html>
