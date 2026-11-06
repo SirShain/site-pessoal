@@ -94,7 +94,7 @@ section{scroll-margin-top:6rem}
 .band{background:var(--tint);border-block:1px solid var(--line)}
 .proj{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,26rem);gap:3rem 5rem;align-items:center;padding-block:4.5rem}
 .proj.flip{grid-template-columns:minmax(0,26rem) minmax(0,1fr)}
-.proj.flip .info{order:2}
+.proj .info{order:1}.proj .stage{order:2}.proj.flip .info{order:2}.proj.flip .stage{order:1}
 .num{font:800 1.4rem/1 var(--display);color:var(--red-text)}
 .proj h3{font:900 clamp(2.6rem,6.4vw,5rem)/.92 var(--display);margin:.4rem 0 1rem;text-transform:uppercase}
 .state{display:inline-flex;align-items:center;gap:.45rem;font:500 .72rem/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:.35rem .75rem;margin-bottom:1.25rem}
@@ -180,7 +180,7 @@ details dd{margin:0;color:var(--soft)}
   .hero-in,.proc,.about{grid-template-columns:minmax(0,1fr)}
   .quote{position:static}
   .proj,.proj.flip{grid-template-columns:minmax(0,1fr);gap:2.5rem}
-  .proj.flip .info{order:0}
+  .proj .info,.proj.flip .info{order:1}.proj .stage,.proj.flip .stage{order:2}
   .cluster{max-width:28rem}
   .row2{grid-template-columns:minmax(0,1fr)}
 }
@@ -233,8 +233,8 @@ details dd{margin:0;color:var(--soft)}
       </div>
       <div class="cluster">
         <div class="phone cl-a"><div class="screens" style="--sbg:#f3f5ef"><img class="on" src="assets/vitrine-inicio.webp" alt="Tela inicial do app Vitrine, com botões Vender, Estoque e Divulgar" width="780" height="1688"></div></div>
-        <div class="phone cl-b"><div class="screens" style="--sbg:#0d1c21"><img class="on" src="assets/dia-hoje.webp" alt="Tela Seu dia do app Dia a Dia, com saldo e quanto dá para gastar por dia" width="780" height="1688"></div></div>
-        <div class="phone cl-c"><div class="screens" style="--sbg:#13151a"><img class="on" src="assets/marg-obras.webp" alt="Tela Obras do app Marginália, com capas de livros e mangás" width="780" height="1688"></div></div>
+        <div class="phone cl-b"><div class="screens" style="--sbg:#13151a"><img class="on" src="assets/marg-obras.webp" alt="Tela Obras do app Marginália, com capas de livros e mangás" width="780" height="1688"></div></div>
+        <div class="phone cl-c"><div class="screens" style="--sbg:#0d1c21"><img class="on" src="assets/dia-hoje.webp" alt="Tela Seu dia do app Dia a Dia, com saldo e quanto dá para gastar por dia" width="780" height="1688"></div></div>
       </div>
     </div>
     <div class="ticker" aria-hidden="true"><div id="tk">
@@ -255,10 +255,41 @@ details dd{margin:0;color:var(--soft)}
 <section class="sec" id="projetos" aria-labelledby="t-proj">
   <div class="wrap"><div class="sec-h"><h2 id="t-proj">Projetos</h2><span class="hud">Telas reais, com dados de exemplo</span></div></div>
 
-  <div class="band" style="--tint:#0A1812">
-    <div class="wrap proj" id="vitrine">
+  <div class="band" style="--tint:#0C0F12">
+    <div class="wrap proj" id="marginalia">
       <div class="info rise">
         <span class="num">01</span>
+        <h3>Marginália</h3>
+        <span class="state on">Em uso</span>
+        <p class="what">Diário de livros, mangás, filmes, séries e jogos, onde cada pessoa escolhe o que compartilhar.</p>
+        <ul class="pts"><li>Capas e dados preenchidos automaticamente.</li><li>Diário com resenhas, metas e estatísticas.</li><li>Privado por padrão; compartilhar é decisão registro a registro.</li></ul>
+        <ul class="tags"><li>Diário de mídia</li><li>Login e banco de dados</li><li>Importa de outros apps</li></ul>
+        <details><summary>Como funciona</summary>
+          <dl>
+            <dt>Para quem</dt><dd>Pessoas que querem registrar o que leem e assistem e decidir o que mostrar a quem está conectado com elas.</dd>
+            <dt>Decisões</dt><dd>A privacidade está no banco de dados (Row Level Security: uma regra que impede um usuário de ler os dados de outro), não só na tela. Tem recuperação de senha, política de privacidade e exclusão de dados (LGPD).</dd>
+            <dt>Tecnologias</dt><dd>Supabase (Postgres, login, arquivos), JavaScript, PWA</dd>
+          </dl>
+        </details>
+      </div>
+      <div class="stage" data-carousel>
+        <div class="phone tilt"><div class="screens" style="--sbg:#13151a">
+          <img class="on" src="assets/marg-obras.webp" data-cap="Obras: tudo o que você leu, assistiu e jogou" alt="Marginália, grade de obras com capas" width="780" height="1688" loading="lazy">
+          <img src="assets/marg-diario.webp" data-cap="Diário: cada registro, com data" alt="Marginália, diário por mês" width="780" height="1688" loading="lazy">
+          <img src="assets/marg-resenhas.webp" data-cap="Resenhas: o que você escreveu" alt="Marginália, resenhas" width="780" height="1688" loading="lazy">
+          <img src="assets/marg-perfil.webp" data-cap="Perfil: metas e o que está em andamento" alt="Marginália, perfil com metas" width="780" height="1688" loading="lazy">
+        </div></div>
+        <div class="ctl"><button type="button" data-prev aria-label="Tela anterior">&#8592;</button><button type="button" data-pause aria-label="Pausar troca automática">II</button><button type="button" data-next aria-label="Próxima tela">&#8594;</button></div>
+        <p class="cap" aria-live="polite"></p>
+        <p class="sample">Dados e capas de exemplo (Open Library e AniList)</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="band" style="--tint:#0A1812">
+    <div class="wrap proj flip" id="vitrine">
+      <div class="info rise">
+        <span class="num">02</span>
         <h3>Vitrine</h3>
         <span class="state on">Em uso</span>
         <p class="what">Estoque, vendas e fiado de uma vendedora autônoma de cosméticos, no celular e sem precisar de internet.</p>
@@ -287,7 +318,7 @@ details dd{margin:0;color:var(--soft)}
   </div>
 
   <div class="band" style="--tint:#08171A">
-    <div class="wrap proj flip" id="prumo">
+    <div class="wrap proj" id="prumo">
       <div class="stage" data-carousel>
         <div class="phone tilt"><div class="screens" style="--sbg:#0d1c21">
           <img class="on" src="assets/dia-hoje.webp" data-cap="Hoje: saldo e quanto dá para gastar por dia" alt="Dia a Dia, tela Seu dia" width="780" height="1688" loading="lazy">
@@ -300,7 +331,7 @@ details dd{margin:0;color:var(--soft)}
         <p class="sample">Dados de exemplo</p>
       </div>
       <div class="info rise">
-        <span class="num">02</span>
+        <span class="num">03</span>
         <h3>Prumo e Dia a Dia</h3>
         <span class="state on">Em uso</span>
         <p class="what">Controle de gastos pelo celular. O Prumo lê a fatura do banco em PDF; o Dia a Dia registra cada gasto em poucos toques.</p>
@@ -314,37 +345,6 @@ details dd{margin:0;color:var(--soft)}
             <dt>Tecnologias</dt><dd>JavaScript, PWA, Web Crypto, WebAuthn, pdf.js</dd>
           </dl>
         </details>
-      </div>
-    </div>
-  </div>
-
-  <div class="band" style="--tint:#0C0F12">
-    <div class="wrap proj" id="marginalia">
-      <div class="info rise">
-        <span class="num">03</span>
-        <h3>Marginália</h3>
-        <span class="state on">Em uso</span>
-        <p class="what">Diário de livros, mangás, filmes, séries e jogos, onde cada pessoa escolhe o que compartilhar.</p>
-        <ul class="pts"><li>Capas e dados preenchidos automaticamente.</li><li>Diário com resenhas, metas e estatísticas.</li><li>Privado por padrão; compartilhar é decisão registro a registro.</li></ul>
-        <ul class="tags"><li>Diário de mídia</li><li>Login e banco de dados</li><li>Importa de outros apps</li></ul>
-        <details><summary>Como funciona</summary>
-          <dl>
-            <dt>Para quem</dt><dd>Pessoas que querem registrar o que leem e assistem e decidir o que mostrar a quem está conectado com elas.</dd>
-            <dt>Decisões</dt><dd>A privacidade está no banco de dados (Row Level Security: uma regra que impede um usuário de ler os dados de outro), não só na tela. Tem recuperação de senha, política de privacidade e exclusão de dados (LGPD).</dd>
-            <dt>Tecnologias</dt><dd>Supabase (Postgres, login, arquivos), JavaScript, PWA</dd>
-          </dl>
-        </details>
-      </div>
-      <div class="stage" data-carousel>
-        <div class="phone tilt"><div class="screens" style="--sbg:#13151a">
-          <img class="on" src="assets/marg-obras.webp" data-cap="Obras: tudo o que você leu, assistiu e jogou" alt="Marginália, grade de obras com capas" width="780" height="1688" loading="lazy">
-          <img src="assets/marg-diario.webp" data-cap="Diário: cada registro, com data" alt="Marginália, diário por mês" width="780" height="1688" loading="lazy">
-          <img src="assets/marg-resenhas.webp" data-cap="Resenhas: o que você escreveu" alt="Marginália, resenhas" width="780" height="1688" loading="lazy">
-          <img src="assets/marg-perfil.webp" data-cap="Perfil: metas e o que está em andamento" alt="Marginália, perfil com metas" width="780" height="1688" loading="lazy">
-        </div></div>
-        <div class="ctl"><button type="button" data-prev aria-label="Tela anterior">&#8592;</button><button type="button" data-pause aria-label="Pausar troca automática">II</button><button type="button" data-next aria-label="Próxima tela">&#8594;</button></div>
-        <p class="cap" aria-live="polite"></p>
-        <p class="sample">Dados e capas de exemplo (Open Library e AniList)</p>
       </div>
     </div>
   </div>
