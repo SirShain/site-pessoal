@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>Tavernard Sites e Sistemas</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Tavernard: sites e sistemas web para pequenos negócios, por Pedro Tavernard, estudante de Ciência da Computação. Aplicações com banco de dados, autenticação e testes.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* Layout: catálogo em largura total. Nome gigante, índice de projetos em grade de quadrados com borda de 1px, fichas técnicas em duas colunas.
+   Direção visual: estilo B—Line (Refero Styles): monoespaçado, sem cor, sem sombra, sem gradiente. Só como direção, nada copiado. */
+:root{
+  --bg:#FFFFFF; --fg:#000000; --mute:#595959; --rule:#000000;
+  --display:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
+  --gutter:max(16px,env(safe-area-inset-left,0px));
+  --gutter-r:max(16px,env(safe-area-inset-right,0px));
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){--bg:#000000;--fg:#FFFFFF;--mute:#A6A6A6;--rule:#FFFFFF;color-scheme:dark}
+}
+:root[data-theme="dark"]{--bg:#000000;--fg:#FFFFFF;--mute:#A6A6A6;--rule:#FFFFFF;color-scheme:dark}
+
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:400 14px/1.6 var(--mono);-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration-thickness:1px;text-underline-offset:3px}
+a:focus-visible{outline:2px solid var(--fg);outline-offset:3px}
+.skip{position:absolute;left:-999px;top:0;background:var(--bg);color:var(--fg);padding:.75rem 1rem;border:1px solid var(--rule)}
+.skip:focus{left:var(--gutter);top:8px;z-index:5}
+.wrap{max-width:112rem;margin:0 auto;padding-left:var(--gutter);padding-right:var(--gutter-r)}
+
+/* barra superior */
+.bar{display:flex;flex-wrap:wrap;justify-content:space-between;gap:.25rem 1.5rem;padding-block:1rem}
+.bar nav{display:flex;flex-wrap:wrap;gap:.25rem 1.25rem}
+.bar a{display:inline-block;padding:.25rem 0}
+
+/* nome */
+.mark{font:800 clamp(3.5rem,17.5vw,16rem)/.86 var(--display);letter-spacing:-.04em;margin:2.5rem 0 3rem}
+.hero-grid{display:grid;grid-template-columns:minmax(0,18rem) minmax(0,1fr);gap:1.5rem 2rem;padding-bottom:4rem}
+.meta{display:grid;grid-template-columns:6.5rem minmax(0,1fr);gap:.5rem 1rem;margin:0}
+.meta dt{color:var(--mute)}
+.meta dd{margin:0}
+.statement{margin:0;font:500 clamp(1.25rem,2.4vw,2rem)/1.3 var(--display);max-width:38rem;letter-spacing:-.01em}
+
+/* títulos de seção */
+.label{display:flex;justify-content:space-between;gap:1rem;font:700 14px/1.6 var(--mono);margin:0;padding-block:.75rem;border-top:1px solid var(--rule)}
+.label span{font-weight:400;color:var(--mute)}
+
+/* índice */
+.index{list-style:none;margin:0 0 5rem;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--rule);border-left:1px solid var(--rule)}
+.index a{display:flex;flex-direction:column;justify-content:space-between;gap:1rem;aspect-ratio:1;padding:.9rem;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);text-decoration:none;min-width:0}
+.index .nm{font:700 clamp(1.15rem,2vw,1.6rem)/1.05 var(--display);letter-spacing:-.015em;overflow-wrap:anywhere}
+.index .ty{font-size:13px;line-height:1.4;color:var(--mute)}
+.index a:hover,.index a:focus-visible{background:var(--fg);color:var(--bg);outline:none}
+.index a:hover .ty,.index a:focus-visible .ty{color:inherit}
+.index a:focus-visible{outline:2px solid var(--fg);outline-offset:-6px;outline-color:var(--bg)}
+
+/* fichas */
+.sheets{margin-bottom:5rem}
+.sheet{display:grid;grid-template-columns:minmax(0,18rem) minmax(0,1fr);gap:1rem 2rem;padding-block:2rem 2.5rem;border-top:1px solid var(--rule);scroll-margin-top:1rem}
+.sheet h3{font:800 clamp(1.6rem,3vw,2.25rem)/1.02 var(--display);letter-spacing:-.025em;margin:0 0 .75rem}
+.sheet .kind{margin:0;color:var(--mute)}
+.sheet .state{margin:.25rem 0 0;font-weight:700}
+.sheet dl{display:grid;grid-template-columns:9rem minmax(0,1fr);gap:.9rem 1.5rem;margin:0;max-width:60rem}
+.sheet dt{color:var(--mute)}
+.sheet dd{margin:0;max-width:44rem}
+
+/* método */
+.method{display:grid;grid-template-columns:minmax(0,18rem) minmax(0,1fr);gap:1rem 2rem;padding-block:2rem 4rem;border-top:1px solid var(--rule)}
+.method dl{display:grid;grid-template-columns:9rem minmax(0,1fr);gap:.9rem 1.5rem;margin:0;max-width:60rem}
+.method dt{font-weight:700}
+.method dd{margin:0;max-width:44rem}
+.method h2{margin:0;font:700 14px/1.6 var(--mono)}
+
+footer{border-top:1px solid var(--rule);padding-block:2rem 3rem}
+footer .big{font:800 clamp(1.4rem,3.4vw,2.6rem)/1.1 var(--display);letter-spacing:-.02em;margin:0 0 1.25rem;overflow-wrap:anywhere}
+footer p{margin:.25rem 0}
+.small{color:var(--mute)}
+
+@media (max-width:62rem){
+  .index{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:48rem){
+  .hero-grid,.sheet,.method{grid-template-columns:minmax(0,1fr)}
+  .sheet dl,.method dl{grid-template-columns:minmax(0,1fr);gap:.15rem}
+  .sheet dd,.method dd{margin-bottom:.9rem}
+  .mark{margin:1.5rem 0 2rem}
+}
+</style>
+
+<a class="skip" href="#projetos">Pular para os projetos</a>
+
+<header class="bar wrap">
+  <span>Tavernard, sites e sistemas web</span>
+  <nav aria-label="Perfis e contato">
+    <a href="https://github.com/SirShain">GitHub</a>
+    <a href="https://www.linkedin.com/in/pedrotavernard/">LinkedIn</a>
+    <a href="https://www.behance.net/pedrotavernard2">Behance</a>
+    <a href="#contato">Contato</a>
+  </nav>
+</header>
+
+<main>
+<section class="wrap" aria-labelledby="t-nome">
+  <h1 class="mark" id="t-nome">Tavernard</h1>
+  <div class="hero-grid">
+    <dl class="meta">
+      <dt>Responsável</dt><dd>Pedro Tavernard</dd>
+      <dt>Formação</dt><dd>Ciência da Computação, Universidade Veiga de Almeida, 2º ano</dd>
+      <dt>Local</dt><dd>São Pedro da Aldeia, RJ</dd>
+      <dt>Idiomas</dt><dd>Português, inglês (B1)</dd>
+      <dt>Disponível</dt><dd>Projetos de site e estágio em desenvolvimento</dd>
+      <dt>Stack</dt><dd>JavaScript, Node.js, React, Python, PostgreSQL, SQLite, Git</dd>
+    </dl>
+    <p class="statement">Sites e sistemas web para pequenos negócios. Cada projeto tem banco de dados com regras de acesso, autenticação, interface que instala no celular e testes. Quatro deles já estão em uso.</p>
+  </div>
+</section>
+
+<section class="wrap" id="projetos" aria-labelledby="t-proj">
+  <h2 class="label" id="t-proj">Projetos <span>7 itens</span></h2>
+  <ul class="index">
+    <li><a href="#prumo"><span class="nm">Prumo e Dia a Dia</span><span class="ty">Finanças pessoais<br>Em uso</span></a></li>
+    <li><a href="#vitrine"><span class="nm">Vitrine</span><span class="ty">Gestão de vendas diretas<br>Em uso</span></a></li>
+    <li><a href="#marginalia"><span class="nm">Marginália</span><span class="ty">Diário de mídia<br>Em uso</span></a></li>
+    <li><a href="#ninho"><span class="nm">Ninho</span><span class="ty">Comunicação privada<br>Em uso</span></a></li>
+    <li><a href="#codice"><span class="nm">Códice</span><span class="ty">Cadernos digitais<br>Pronto, falta hospedar</span></a></li>
+    <li><a href="#scout"><span class="nm">Scout Fla</span><span class="ty">Análise no futebol<br>Em desenvolvimento</span></a></li>
+    <li><a href="#lumyn"><span class="nm">Lumyn</span><span class="ty">Trabalho da faculdade<br>Conceito</span></a></li>
+    <li><a href="#contato"><span class="nm">Contato</span><span class="ty">E-mail, LinkedIn, GitHub, Behance</span></a></li>
+  </ul>
+
+  <div class="sheets">
+    <article class="sheet" id="prumo">
+      <div><h3>Prumo e Dia a Dia</h3><p class="kind">Finanças pessoais</p><p class="state">Em uso</p></div>
+      <dl>
+        <dt>Contexto</dt><dd>Dois apps de finanças para Android, instaláveis como PWA. O Prumo é de uso mensal; o Dia a Dia, diário.</dd>
+        <dt>O que faz</dt><dd>O Prumo importa a fatura do cartão e o extrato em PDF (Itaú) e mostra o mês por categoria. O Dia a Dia registra Pix, débito e dinheiro à mão.</dd>
+        <dt>Decisões</dt><dd>Confere as somas do PDF antes de aceitar o arquivo, para não exibir valor errado. Dados cifrados no aparelho (AES-256-GCM), desbloqueio por PIN e digital (WebAuthn), nenhum servidor externo e política de segurança de conteúdo (CSP) ativa.</dd>
+        <dt>Stack</dt><dd>JavaScript, PWA, Web Crypto, WebAuthn, pdf.js, Netlify</dd>
+      </dl>
+    </article>
+
+    <article class="sheet" id="vitrine">
+      <div><h3>Vitrine</h3><p class="kind">Gestão de vendas diretas</p><p class="state">Em uso</p></div>
+      <dl>
+        <dt>Contexto</dt><dd>Aplicativo para uma consultora de cosméticos controlar estoque, vendas, fiado e clientes pelo celular.</dd>
+        <dt>O que faz</dt><dd>Venda com carrinho e pagamento em dinheiro, Pix, cartão ou fiado; estoque com alerta de baixa; fiado com vencimentos; resumo mensal com lucro; anúncio em imagem e mensagens de cobrança para WhatsApp.</dd>
+        <dt>Decisões</dt><dd>Funciona sem internet, com dados no aparelho (IndexedDB) e cópia de segurança em arquivo. Preço sugerido por margem, com final em ,90. Toda venda pode ser desfeita. Pagamentos de fiado abatem as compras mais antigas primeiro.</dd>
+        <dt>Stack</dt><dd>JavaScript (módulos), PWA, IndexedDB, Service Worker, Netlify</dd>
+      </dl>
+    </article>
+
+    <article class="sheet" id="marginalia">
+      <div><h3>Marginália</h3><p class="kind">Diário de mídia</p><p class="state">Em uso</p></div>
+      <dl>
+        <dt>Contexto</dt><dd>Registro de livros, mangás, HQs, filmes, séries, animes e jogos, para usuários conectados entre si.</dd>
+        <dt>O que faz</dt><dd>Catálogo com capa automática a partir de cinco fontes, progresso, resenhas, listas, metas anuais, estatísticas, importação de CSV (Goodreads, StoryGraph, Letterboxd), perfil personalizável e três temas.</dd>
+        <dt>Decisões</dt><dd>Isolamento de dados por Row Level Security no Postgres: tudo é privado por padrão e o compartilhamento é decidido por registro. Recuperação de senha, exclusão de dados e política de privacidade (LGPD). Sincronização por diferença, com envio adiado.</dd>
+        <dt>Stack</dt><dd>Supabase (Postgres, Auth, Storage), JavaScript, PWA, AniList, TMDB, RAWG</dd>
+      </dl>
+    </article>
+
+    <article class="sheet" id="ninho">
+      <div><h3>Ninho</h3><p class="kind">Comunicação privada</p><p class="state">Em uso</p></div>
+      <dl>
+        <dt>Contexto</dt><dd>Aplicativo para dois usuários, hospedado em servidor próprio.</dd>
+        <dt>O que faz</dt><dd>Chat, chamadas de voz e vídeo, assistente de IA integrado e instalação no celular.</dd>
+        <dt>Decisões</dt><dd>Verificação em duas etapas (app autenticador e códigos de reserva), limite de tentativas, cabeçalhos de segurança, exportação de dados, testes automáticos e de tela.</dd>
+        <dt>Stack</dt><dd>React, Vite, Node.js (Fastify), SQLite, LiveKit, Tailscale, Playwright</dd>
+      </dl>
+    </article>
+
+    <article class="sheet" id="codice">
+      <div><h3>Códice</h3><p class="kind">Cadernos digitais</p><p class="state">Pronto, falta hospedar</p></div>
+      <dl>
+        <dt>Contexto</dt><dd>Anotações organizadas em cadernos, cada um com identidade visual própria.</dd>
+        <dt>O que faz</dt><dd>Páginas e blocos livres, busca em todos os cadernos, lixeira, histórico de versões, cadernos protegidos por senha, revisão com repetição espaçada e exportação em Markdown.</dd>
+        <dt>Decisões</dt><dd>Sincronização por caderno com cópia local para uso offline. Imagens em Storage privado. Criptografia no navegador nos cadernos protegidos.</dd>
+        <dt>Stack</dt><dd>JavaScript, PWA, Supabase</dd>
+      </dl>
+    </article>
+
+    <article class="sheet" id="scout">
+      <div><h3>Scout Fla</h3><p class="kind">Análise no futebol</p><p class="state">Em desenvolvimento</p></div>
+      <dl>
+        <dt>Contexto</dt><dd>Sistema para avaliar jogadores e registrar partidas.</dd>
+        <dt>O que faz</dt><dd>Cadastro de jogos e elenco, avaliação por partida (nota, minutos, gols, assistências, desarmes), visão da temporada, mapa de calor e quadro tático.</dd>
+        <dt>Decisões</dt><dd>Dados locais em SQLite; as anotações do usuário nunca são sobrescritas pela sincronização. A próxima versão importa o elenco colando texto de sites, sem depender de API.</dd>
+        <dt>Stack</dt><dd>Python, SQLite, JavaScript</dd>
+      </dl>
+    </article>
+
+    <article class="sheet" id="lumyn">
+      <div><h3>Lumyn</h3><p class="kind">Trabalho da faculdade</p><p class="state">Conceito</p></div>
+      <dl>
+        <dt>Contexto</dt><dd>Conceito de startup de saúde emocional, desenvolvido como trabalho da graduação. Não é um produto em uso.</dd>
+        <dt>Onde ver</dt><dd><a href="https://www.behance.net/pedrotavernard2">Behance</a></dd>
+      </dl>
+    </article>
+  </div>
+</section>
+
+<section class="wrap" aria-labelledby="t-metodo">
+  <div class="method">
+    <h2 id="t-metodo">Como eu trabalho</h2>
+    <dl>
+      <dt>Requisitos</dt><dd>Levanto com quem vai usar o que a pessoa precisa e o que fica de fora, antes de escrever código.</dd>
+      <dt>Segurança</dt><dd>Privacidade definida no banco (RLS), cifragem no aparelho quando o app guarda dado financeiro e verificação em duas etapas onde há conta.</dd>
+      <dt>Qualidade</dt><dd>Testes no navegador, auditoria do banco e revisão de acessibilidade e contraste antes de publicar.</dd>
+      <dt>Conformidade</dt><dd>Política de privacidade, termos e exclusão de dados (LGPD) nos apps com conta de usuário.</dd>
+    </dl>
+  </div>
+</section>
+</main>
+
+<footer class="wrap" id="contato">
+  <p class="big">pedrotwb.oficial@gmail.com</p>
+  <p><a href="https://www.linkedin.com/in/pedrotavernard/">LinkedIn</a> / <a href="https://github.com/SirShain">GitHub</a> / <a href="https://www.behance.net/pedrotavernard2">Behance</a></p>
+  <p>Para pedir um orçamento, escreva por e-mail contando o que o negócio faz e o que precisa.</p>
+  <p class="small">Tavernard, por Pedro Tavernard. São Pedro da Aldeia, RJ. Apresento qualquer um dos projetos em uso numa conversa.</p>
+</footer>
+
+</body>
+</html>
