@@ -99,6 +99,13 @@ section{scroll-margin-top:6rem}
 .proj h3{font:900 clamp(2.6rem,6.4vw,5rem)/.92 var(--display);margin:.4rem 0 1rem;text-transform:uppercase}
 .state{display:inline-flex;align-items:center;gap:.45rem;font:500 .72rem/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:.35rem .75rem;margin-bottom:1.25rem}
 .state.on::before{content:"";width:.45rem;height:.45rem;border-radius:50%;background:#4ADE80}
+.state.demo{border-style:dashed;color:var(--soft)}
+.proj .wide{grid-column:1/-1;order:3;display:flex;flex-direction:column;gap:.9rem;margin-top:1rem}
+.browser{border-radius:14px;overflow:hidden;background:#0b100f;border:1px solid rgba(255,255,255,.14);box-shadow:0 40px 70px -30px rgba(0,0,0,.8)}
+.browser .bar{display:flex;align-items:center;gap:.4rem;padding:.55rem .8rem;background:#161f1e;border-bottom:1px solid rgba(255,255,255,.08)}
+.browser .bar i{width:.6rem;height:.6rem;border-radius:50%;background:#3a4745}
+.browser .bar span{flex:1;margin-left:.6rem;max-width:22rem;font:400 .72rem/1 var(--mono);color:var(--muted);background:#0b100f;border-radius:999px;padding:.4rem .8rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.browser img{display:block;width:100%;height:auto}
 .proj p.what{font-size:1.2rem;max-width:34rem;margin:0 0 1.25rem;color:var(--ink)}
 .pts{list-style:none;margin:0 0 1.25rem;padding:0;display:grid;gap:.5rem;max-width:34rem}
 .pts li{padding-left:1.4rem;position:relative;color:var(--soft)}
@@ -226,7 +233,7 @@ details dd{margin:0;color:var(--soft)}
           <a class="btn" href="#contato">Pedir um orçamento</a>
         </div>
         <div class="stats">
-          <div><b>7</b><span>projetos no portfólio</span></div>
+          <div><b>8</b><span>projetos no portfólio</span></div>
           <div><b>5</b><span>já em uso</span></div>
           <div><b>4º</b><span>semestre de Ciência da Computação</span></div>
         </div>
@@ -349,6 +356,42 @@ details dd{margin:0;color:var(--soft)}
     </div>
   </div>
 
+  <div class="band" style="--tint:#16110E">
+    <div class="wrap proj" id="pousada">
+      <div class="info rise">
+        <span class="num">04</span>
+        <h3>Pousada Maré Alta</h3>
+        <span class="state demo">Demonstração, sem cliente</span>
+        <p class="what">Site de uma pousada fictícia, feito para mostrar o que eu entrego a um negócio de hospedagem.</p>
+        <ul class="pts"><li>Reserva pelo WhatsApp: o hóspede escolhe as datas e a mensagem já abre pronta.</li><li>Quarto, café da manhã, fotos e avaliações em uma página só, rápida no celular.</li><li>Cada preço, horário e avaliação aparece marcado como exemplo.</li></ul>
+        <ul class="tags"><li>Site de pousada</li><li>Celular primeiro</li><li>WhatsApp</li></ul>
+        <details><summary>Como foi feito</summary>
+          <dl>
+            <dt>O que é</dt><dd>Um projeto de demonstração. A pousada, o endereço, o telefone, os preços e as avaliações são inventados. Não existe cliente por trás.</dd>
+            <dt>Meu trabalho</dt><dd>Logo, paleta e tipografia (Fraunces e Nunito), textos, estrutura das seções, formulário que abre o WhatsApp e ajustes para celular. A base é um template de hospedagem adaptado.</dd>
+            <dt>Imagens</dt><dd>Fotos de banco de imagens livre (Unsplash), com créditos registrados.</dd>
+            <dt>Tecnologias</dt><dd>HTML, CSS, JavaScript</dd>
+          </dl>
+        </details>
+      </div>
+      <div class="stage" data-carousel>
+        <div class="phone tilt"><div class="screens" style="--sbg:#fdf3e6">
+          <img class="on" src="assets/pousada-inicio.webp" data-cap="Início: o que é a pousada e botão de reserva pelo WhatsApp" alt="Pousada Maré Alta no celular, tela inicial com título e botão Reservar pelo WhatsApp" width="780" height="1688" loading="lazy">
+          <img src="assets/pousada-quarto.webp" data-cap="Quarto: foto, descrição e diária de exemplo" alt="Pousada Maré Alta no celular, seção do quarto de casal" width="780" height="1688" loading="lazy">
+          <img src="assets/pousada-fotos.webp" data-cap="Fotos: a pousada por fora e por dentro" alt="Pousada Maré Alta no celular, galeria de fotos" width="780" height="1688" loading="lazy">
+          <img src="assets/pousada-avaliacoes.webp" data-cap="Avaliações: todas marcadas como exemplo" alt="Pousada Maré Alta no celular, avaliações de hóspedes de exemplo" width="780" height="1688" loading="lazy">
+        </div></div>
+        <div class="ctl"><button type="button" data-prev aria-label="Tela anterior">&#8592;</button><button type="button" data-pause aria-label="Pausar troca automática">II</button><button type="button" data-next aria-label="Próxima tela">&#8594;</button></div>
+        <p class="cap" aria-live="polite"></p>
+        <p class="sample">Pousada fictícia · dados de exemplo</p>
+      </div>
+      <div class="wide rise">
+        <div class="browser"><div class="bar"><i></i><i></i><i></i><span>pousada-mare-alta (demonstração)</span></div><img src="assets/pousada-desktop.webp" alt="Pousada Maré Alta no computador: topo do site com menu, título, botões e faixa de destaques" width="1440" height="900" loading="lazy"></div>
+        <p class="sample">Versão para computador · fotos de Unsplash (créditos registrados) · logo criado para a demonstração</p>
+      </div>
+    </div>
+  </div>
+
   <div class="wrap" style="padding-top:4rem">
     <div class="sec-h"><h2 style="font-size:clamp(1.8rem,4vw,2.8rem)">Mais projetos</h2><span class="hud">Em uso, em andamento e da faculdade</span></div>
     <div class="rows">
@@ -410,7 +453,7 @@ details dd{margin:0;color:var(--soft)}
     <div class="rise">
       <h3>Quem faz</h3>
       <p>Pedro Tavernard, estudante de Ciência da Computação na Universidade Veiga de Almeida (Campus Cabo Frio), no 4º semestre.</p>
-      <p>Cinco dos sete projetos estão publicados e em uso. Os outros dois são um projeto em andamento e um trabalho de faculdade.</p>
+      <p>Cinco dos oito projetos estão publicados e em uso. Os outros três são um projeto em andamento, um trabalho de faculdade e um site de demonstração, sem cliente, que fiz para mostrar o que sei entregar.</p>
     </div>
     <div class="rise">
       <h3>Ferramentas</h3>
